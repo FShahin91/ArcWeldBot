@@ -16,9 +16,9 @@
 | README.md | This file! |
 
 ## Building the project:
-Simply clone this repositry inside the source directory of your MoveIt! workspace and then build it using `catkin build`:
+Simply clone this to your workspace and then build it (for example uising `catkin build`):
         
-        cd path/to/moveit_ws/src/ArcWeldBot
+        cd path/to/workspace/src/
         git clone https://github.com/FShahin91/ArcWeldBot.git
         cd ../
         catkin build
