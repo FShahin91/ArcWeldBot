@@ -10,7 +10,7 @@
 | File/Folder Name | Description |
 | ---------------- | ----------- |
 | doc | A folder which contains all documentation|
-| ur_descriptio_pkg | A packgae which includes the UR10 robot arm description files |
+| ur_description_pkg | A package which includes the UR10 robot arm description files |
 | ur_moveit_config | An auto-generated package from MoveIt! Setup Assistant to configure the UR10 robot arm |
 | LICENSE | GNU GPL v3.0 |
 | README.md | This file! |
