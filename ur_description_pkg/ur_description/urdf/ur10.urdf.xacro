@@ -366,7 +366,7 @@
  <link name="torch">
 	<visual name="visual">
       <geometry>
-        <mesh filename="package://ppm_lab/meshes/torch.stl"/>
+        <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/torch.stl"/>
       </geometry>
       <material name="red"/>
       <!-- <material name="torch_gray"/> -->
@@ -399,28 +399,10 @@
     </visual>
   </link>
 
-  <!-- <link name="table">
-	<visual name="visual">
-      <geometry>
-        <mesh filename="package://ppm_lab/meshes/table.stl"/>
-      </geometry>
-      <material name="desk_dark"/>
-    </visual>
-  </link> -->
-
-  <!-- <link name="plate">
-	  <visual name="visual">
-      <geometry>
-        <mesh filename="package://ppm_lab/meshes/workpiece.stl"/>
-      </geometry>
-      <material name="plate_light_gray"/>
-    </visual>
-  </link> -->
-
   <link name="flange">
 	  <visual name="visual">
       <geometry>
-        <mesh filename="package://ppm_lab/meshes/flange.stl"
+        <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/flange.stl"
 	      scale="0.001 0.001 0.001"/>
       </geometry>
       <!-- <material name="plate_light_gray"/> -->
