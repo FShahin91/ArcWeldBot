@@ -368,17 +368,23 @@
       <geometry>
         <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/torch.stl"/>
       </geometry>
-      <material name="red"/>
+      <material name="LightGrey">
+               <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
       <!-- <material name="torch_gray"/> -->
     </visual>
+    
   </link>
         <link name="tcp">
 	  <visual name="visual">
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-    <material name="red"/>
+    <material name="LightGrey">
+               <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
     </visual>
+    
   </link>
 
   <link name="tip">
@@ -388,6 +394,7 @@
       </geometry>
       <!-- <material name="blue"/> -->
     </visual>
+    
   </link>
 
   <link name="scanner">
@@ -405,9 +412,13 @@
         <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/flange.stl"
 	      scale="0.001 0.001 0.001"/>
       </geometry>
+      <material name="LightGrey">
+               <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
       <!-- <material name="plate_light_gray"/> -->
       <!-- <material name="blue"/> -->
     </visual>
+    
   </link>
 
  <joint type="fixed" name="link6_flange">
