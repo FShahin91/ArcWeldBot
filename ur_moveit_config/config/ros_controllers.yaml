@@ -7,6 +7,7 @@ arm_controller:
     - wrist_1_joint
     - wrist_2_joint
     - wrist_3_joint
+    - torch_tip
   gains:
     shoulder_pan_joint:
       p: 100
@@ -38,6 +39,11 @@ arm_controller:
       d: 1
       i: 1
       i_clamp: 1
+    torch_tip:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
 wrist_controller:
   type: effort_controllers/JointTrajectoryController
   joints:
@@ -45,6 +51,46 @@ wrist_controller:
     - wrist_2_joint
     - wrist_3_joint
   gains:
+    wrist_1_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    wrist_2_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    wrist_3_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+armNoTool_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+  gains:
+    shoulder_pan_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    shoulder_lift_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    elbow_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
     wrist_1_joint:
       p: 100
       d: 1

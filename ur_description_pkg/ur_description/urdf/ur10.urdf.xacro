@@ -368,23 +368,24 @@
       <geometry>
         <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/torch.stl"/>
       </geometry>
-      <material name="LightGrey">
-               <color rgba="0.7 0.7 0.7 1.0"/>
-            </material>
+      <material name="torch_gray"/>
       <!-- <material name="torch_gray"/> -->
     </visual>
-    
+    <!--
+    <collision>
+        <geometry>
+          <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/torch.stl"/>
+        </geometry>
+    </collision>
+    -->
   </link>
         <link name="tcp">
 	  <visual name="visual">
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-    <material name="LightGrey">
-               <color rgba="0.7 0.7 0.7 1.0"/>
-            </material>
+    <material name="torch_gray"/>
     </visual>
-    
   </link>
 
   <link name="tip">
@@ -392,9 +393,8 @@
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-      <!-- <material name="blue"/> -->
+      <material name="blue"/>
     </visual>
-    
   </link>
 
   <link name="scanner">
@@ -402,7 +402,7 @@
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-      <!-- <material name="red"/> -->
+      <material name="torch_gray"/>
     </visual>
   </link>
 
@@ -412,13 +412,16 @@
         <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/flange.stl"
 	      scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="LightGrey">
-               <color rgba="0.7 0.7 0.7 1.0"/>
-            </material>
-      <!-- <material name="plate_light_gray"/> -->
+      <material name="plate_light_gray"/>
       <!-- <material name="blue"/> -->
     </visual>
-    
+    <!--
+    <collision>
+        <geometry>
+          <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/flange.stl"/>
+        </geometry>
+    </collision>
+      -->
   </link>
 
  <joint type="fixed" name="link6_flange">
@@ -438,7 +441,8 @@
   </joint>
 
     <joint type="revolute" name="torch_tip">
-    <origin xyz="0.4295 0 0" rpy="0 -0.785398 0"/>
+    <!--<origin xyz="0.4295 0 0" rpy="0 -0.785398 0"/> -->
+    <origin xyz="0.38 0 0" rpy="0 -0.785398 0"/>
     <parent link="${prefix}ee_link"/>
     <child link="tip"/>
     <axis xyz="0 0 1"/>
