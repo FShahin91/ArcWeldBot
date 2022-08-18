@@ -66,7 +66,7 @@ wrist_controller:
       d: 1
       i: 1
       i_clamp: 1
-arm-NoTool_controller:
+armNoTool_controller:
   type: effort_controllers/JointTrajectoryController
   joints:
     - shoulder_pan_joint

@@ -19,7 +19,7 @@ controller_list:
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
-  - name: arm-NoTool_controller
+  - name: armNoTool_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: True

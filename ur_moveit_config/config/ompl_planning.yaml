@@ -185,7 +185,7 @@ wrist:
     - SPARStwo
   projection_evaluator: joints(wrist_1_joint,wrist_2_joint)
   longest_valid_segment_fraction: 0.005
-arm-NoTool:
+armNoTool:
   default_planner_config: RRT
   planner_configs:
     - AnytimePathShortening
