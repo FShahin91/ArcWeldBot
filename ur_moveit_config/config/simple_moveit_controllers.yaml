@@ -10,11 +10,23 @@ controller_list:
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
+      - torch_tip
   - name: wrist_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: True
     joints:
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+  - name: arm-NoTool_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: True
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
