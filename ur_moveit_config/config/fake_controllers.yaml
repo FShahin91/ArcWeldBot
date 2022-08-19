@@ -8,6 +8,7 @@ controller_list:
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
+      - torch_tip
   - name: fake_wrist_controller
     type: $(arg fake_execution_type)
     joints:

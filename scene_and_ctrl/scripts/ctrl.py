@@ -180,11 +180,11 @@ class MoveGroupPython(object):
         ## We use the constant `tau = 2*pi <https://en.wikipedia.org/wiki/Turn_(angle)#Tau_proposals>`_ for convenience:
         # We get the joint values from the group and change some of the values:
         #joint_goal = self.move_group.get_current_joint_values()
-        if len(joint_goal) > 6:
-            print("Number of joints must not exceed 6.")
+        if len(joint_goal) != 7:
+            print("Number of joints must not be 7.")
             return False
         
-        #joint_goal[6] = 0
+        joint_goal[6] = 0
 
         # The go command can be called with joint values, poses, or without any
         # parameters if you have already set the pose or joint target for the group
@@ -468,7 +468,7 @@ def main():
         print("Initializing control...")
         ctrlgroup = MoveGroupPython()
         print("Moving robot to home postion...")
-        joint_target = [0, -pi/2, pi/2, 0, pi/2, pi]
+        joint_target = [0, -pi/2, pi/2, 0, pi/2, pi, 0]
         ctrlgroup.go_to_joint_state(joint_target)
 
         print("Moving robot to position...")

@@ -10,6 +10,12 @@
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="arm">
+        <joint name="shoulder_pan_joint"/>
+        <joint name="shoulder_lift_joint"/>
+        <joint name="elbow_joint"/>
+        <joint name="wrist_1_joint"/>
+        <joint name="wrist_2_joint"/>
+        <joint name="wrist_3_joint"/>
         <chain base_link="base_link" tip_link="tip"/>
     </group>
     <group name="wrist">
@@ -29,6 +35,7 @@
         <joint name="elbow_joint" value="1.5708"/>
         <joint name="shoulder_lift_joint" value="-1.5708"/>
         <joint name="shoulder_pan_joint" value="0"/>
+        <joint name="torch_tip" value="0"/>
         <joint name="wrist_1_joint" value="-0.015"/>
         <joint name="wrist_2_joint" value="1.5708"/>
         <joint name="wrist_3_joint" value="3.1415"/>
