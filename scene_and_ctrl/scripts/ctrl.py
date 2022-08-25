@@ -53,9 +53,9 @@ import moveit_msgs.msg
 import geometry_msgs.msg
 
 try:
-    from math import pi, tau, dist, fabs, cos
+    from math import pi, tau, dist, fabs, cos, sin, degrees, radians
 except:  # For Python 2 compatibility
-    from math import pi, fabs, cos, sqrt
+    from math import pi, fabs, cos, sqrt, sin, degrees, radians
 
     tau = 2.0 * pi
 
@@ -197,7 +197,7 @@ class MoveGroupPython(object):
         current_joints = self.move_group.get_current_joint_values()
         return all_close(joint_goal, current_joints, 0.01)
 
-    def go_to_pose_goal(self):
+    def go_to_pose_goal(self, pose_goal):
         # Copy class variables to local variables to make the web tutorials more clear.
         # In practice, you should use the class variables directly unless you have a good
         # reason not to.
@@ -209,11 +209,11 @@ class MoveGroupPython(object):
         ## ^^^^^^^^^^^^^^^^^^^^^^^
         ## We can plan a motion for this group to a desired pose for the
         ## end-effector:
-        pose_goal = geometry_msgs.msg.Pose()
-        pose_goal.orientation.w = 1.0
-        pose_goal.position.x = 0.4
-        pose_goal.position.y = 0.1
-        pose_goal.position.z = 0.4
+        #pose_goal = geometry_msgs.msg.Pose()
+        #pose_goal.orientation.w = 1.0
+        #pose_goal.position.x = 0.4
+        #pose_goal.position.y = 0.1
+        #pose_goal.position.z = 0.4
 
         move_group.set_pose_target(pose_goal)
 
@@ -233,11 +233,7 @@ class MoveGroupPython(object):
         current_pose = self.move_group.get_current_pose().pose
         return all_close(pose_goal, current_pose, 0.01)
 
-    def plan_cartesian_path(self, scale=1):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        move_group = self.move_group
+    def plan_cartesian_path(self, xMove=0, yMove=0, zMove=0):
 
         ## BEGIN_SUB_TUTORIAL plan_cartesian_path
         ##
@@ -249,9 +245,11 @@ class MoveGroupPython(object):
         ##
         waypoints = []
 
-        wpose = move_group.get_current_pose().pose
-        wpose.position.z -= scale * 0.1  # First move up (z)
-        wpose.position.y += scale * 0.2  # and sideways (y)
+        wpose = self.move_group.get_current_pose().pose
+        wpose.position.x += xMove  # and sideways (y)
+        wpose.position.y += yMove  # and sideways (y)
+        wpose.position.z += zMove  # First move up (z)
+
         waypoints.append(copy.deepcopy(wpose))
 
         wpose.position.x += scale * 0.1  # Second move forward/backwards in (x)
@@ -265,7 +263,7 @@ class MoveGroupPython(object):
         # translation.  We will disable the jump threshold by setting it to 0.0,
         # ignoring the check for infeasible jumps in joint space, which is sufficient
         # for this tutorial.
-        (plan, fraction) = move_group.compute_cartesian_path(
+        (plan, fraction) = self.move_group.compute_cartesian_path(
             waypoints, 0.01, 0.0  # waypoints to follow  # eef_step
         )  # jump_threshold
 
@@ -364,104 +362,6 @@ class MoveGroupPython(object):
         return False
         ## END_SUB_TUTORIAL
 
-    def add_box(self, timeout=4):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        box_name = self.box_name
-        scene = self.scene
-
-        ## BEGIN_SUB_TUTORIAL add_box
-        ##
-        ## Adding Objects to the Planning Scene
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## First, we will create a box in the planning scene between the fingers:
-        box_pose = geometry_msgs.msg.PoseStamped()
-        box_pose.header.frame_id = "panda_hand"
-        box_pose.pose.orientation.w = 1.0
-        box_pose.pose.position.z = 0.11  # above the panda_hand frame
-        box_name = "box"
-        scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
-
-        ## END_SUB_TUTORIAL
-        # Copy local variables back to class variables. In practice, you should use the class
-        # variables directly unless you have a good reason not to.
-        self.box_name = box_name
-        return self.wait_for_state_update(box_is_known=True, timeout=timeout)
-
-    def attach_box(self, timeout=4):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        box_name = self.box_name
-        robot = self.robot
-        scene = self.scene
-        eef_link = self.eef_link
-        group_names = self.group_names
-
-        ## BEGIN_SUB_TUTORIAL attach_object
-        ##
-        ## Attaching Objects to the Robot
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## Next, we will attach the box to the Panda wrist. Manipulating objects requires the
-        ## robot be able to touch them without the planning scene reporting the contact as a
-        ## collision. By adding link names to the ``touch_links`` array, we are telling the
-        ## planning scene to ignore collisions between those links and the box. For the Panda
-        ## robot, we set ``grasping_group = 'hand'``. If you are using a different robot,
-        ## you should change this value to the name of your end effector group name.
-        grasping_group = "hand"
-        touch_links = robot.get_link_names(group=grasping_group)
-        scene.attach_box(eef_link, box_name, touch_links=touch_links)
-        ## END_SUB_TUTORIAL
-
-        # We wait for the planning scene to update.
-        return self.wait_for_state_update(
-            box_is_attached=True, box_is_known=False, timeout=timeout
-        )
-
-    def detach_box(self, timeout=4):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        box_name = self.box_name
-        scene = self.scene
-        eef_link = self.eef_link
-
-        ## BEGIN_SUB_TUTORIAL detach_object
-        ##
-        ## Detaching Objects from the Robot
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## We can also detach and remove the object from the planning scene:
-        scene.remove_attached_object(eef_link, name=box_name)
-        ## END_SUB_TUTORIAL
-
-        # We wait for the planning scene to update.
-        return self.wait_for_state_update(
-            box_is_known=True, box_is_attached=False, timeout=timeout
-        )
-
-    def remove_box(self, timeout=4):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        box_name = self.box_name
-        scene = self.scene
-
-        ## BEGIN_SUB_TUTORIAL remove_object
-        ##
-        ## Removing Objects from the Planning Scene
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## We can remove the box from the world.
-        scene.remove_world_object(box_name)
-
-        ## **Note:** The object must be detached before we can remove it from the world
-        ## END_SUB_TUTORIAL
-
-        # We wait for the planning scene to update.
-        return self.wait_for_state_update(
-            box_is_attached=False, box_is_known=False, timeout=timeout
-        )
-
 
 def main():
     try:
@@ -474,13 +374,48 @@ def main():
         print("Moving robot to position...")
         joint_target = ctrlgroup.move_group.get_current_joint_values()
         
-        joint_target[0] = -0.5 * pi/180
-        joint_target[1] = -74 * pi/180
-        joint_target[2] = 80 * pi/180
-        joint_target[3] = 38 * pi/180
-        joint_target[4] = 90 * pi/180
+        joint_target[0] = radians(-14)
+        joint_target[1] = radians(-70)
+        joint_target[2] = radians(97)
+        joint_target[3] = radians(19)
+        joint_target[4] = radians(80)
+        joint_target[5] = radians(170)
         ctrlgroup.go_to_joint_state(joint_target)
 
+        targetPose = geometry_msgs.msg.Pose()
+        tempPose = geometry_msgs.msg.Pose()
+        currentPose = ctrlgroup.move_group.get_current_pose()
+        targetPose = copy.deepcopy(currentPose.pose)
+        tempPose = copy.deepcopy(currentPose.pose)
+        #print("Current Pose is:")
+        #print(currentPose.pose.position.x)
+        #print(currentPose.pose.position.y)
+        #print(currentPose.pose.position.z)
+        waypoints = []
+        
+        for angle in range (0, 90):
+            x = (0.1 * cos(radians(angle))) - 0.1
+            y = 0.1 * sin(radians(angle))
+            targetPose.position.x = tempPose.position.x - x
+            targetPose.position.y = tempPose.position.y - y
+            waypoints.append(copy.deepcopy(targetPose))
+        
+        (plan, fraction) = ctrlgroup.move_group.compute_cartesian_path(
+            waypoints, 0.01, 0.0  # waypoints to follow  # eef_step
+        )
+        ctrlgroup.execute_plan(plan)
+
+        waypoints.clear()
+        for angle in range (0, 360):           
+            x = 0.1 - (0.1 * cos(radians(angle)))
+            y = 0.1 * sin(radians(angle))
+            targetPose.position.x = tempPose.position.x - x
+            targetPose.position.y = tempPose.position.y - y
+            waypoints.append(copy.deepcopy(targetPose))
+        
+        (plan, fraction) = ctrlgroup.move_group.compute_cartesian_path(
+            waypoints, 0.01, 0.0  # waypoints to follow  # eef_step
+        )
         print("End of planning.")
         
         

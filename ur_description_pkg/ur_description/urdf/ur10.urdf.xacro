@@ -368,23 +368,27 @@
       <geometry>
         <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/torch.stl"/>
       </geometry>
-      <material name="torch_gray"/>
+      <material name="gunmetal_gray">
+        <color rgba="0.553 0.569 0.553 1.0"/>
+      </material>
       <!-- <material name="torch_gray"/> -->
     </visual>
-    <!--
+    
     <collision>
         <geometry>
           <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/torch.stl"/>
         </geometry>
     </collision>
-    -->
+    
   </link>
         <link name="tcp">
 	  <visual name="visual">
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-    <material name="torch_gray"/>
+    <material name="gunmetal_gray">
+        <color rgba="0.553 0.569 0.553 1.0"/>
+    </material>
     </visual>
   </link>
 
@@ -393,7 +397,9 @@
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-      <material name="blue"/>
+      <material name="blue">
+        <color rgba="0 0 1 1.0"/>
+      </material>
     </visual>
   </link>
 
@@ -402,7 +408,9 @@
       <geometry>
         <sphere radius="0.005"/>
       </geometry>
-      <material name="torch_gray"/>
+      <material name="gunmetal_gray">
+        <color rgba="0.553 0.569 0.553 1.0"/>
+      </material>
     </visual>
   </link>
 
@@ -412,8 +420,9 @@
         <mesh filename="package://ur_description_pkg/ur_description/meshes/collision/flange.stl"
 	      scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="plate_light_gray"/>
-      <!-- <material name="blue"/> -->
+      <material name="pewter">
+        <color rgba="0.914 0.918 0.925 1.0"/>
+      </material>
     </visual>
     <!--
     <collision>

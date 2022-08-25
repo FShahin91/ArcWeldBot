@@ -68,48 +68,38 @@ int main(int argc, char** argv)
     sleep_t.sleep();
   }
 
-  moveit_msgs::AttachedCollisionObject cylinder_1, cylinder_2;
-  cylinder_1.link_name = "world";
-  cylinder_1.object.header.frame_id = "world";
-  cylinder_1.object.id = "l_cylinder";
+  moveit_msgs::AttachedCollisionObject sheet;
+  sheet.link_name = "world";
+  sheet.object.header.frame_id = "world";
+  sheet.object.id = "sheet";
 
   /* A default pose */
   geometry_msgs::Pose pose;
   pose.position.x = 1.0;
-  pose.position.y = 0.41;
-  pose.position.z = 0.20;
-  pose.orientation.w = 0.706825;
-  pose.orientation.x = 0.707388;
+  pose.position.y = 0.0;
+  pose.position.z = 0.02;
+  pose.orientation.w = 1;
+  pose.orientation.x = 0;
   pose.orientation.y = 0;
   pose.orientation.z = 0;
   
   /* Define a cylinder to be attached */
   shape_msgs::SolidPrimitive primitive;
-  primitive.type = primitive.CYLINDER;
-  primitive.dimensions.resize(2);
-  primitive.dimensions[primitive.CYLINDER_HEIGHT]= 0.5;
-  primitive.dimensions[primitive.CYLINDER_RADIUS]= 0.05; 
+  primitive.type = primitive.BOX;
+  primitive.dimensions.resize(3);
+  primitive.dimensions[primitive.BOX_X]= 1.5;
+  primitive.dimensions[primitive.BOX_Y]= 1.5;
+  primitive.dimensions[primitive.BOX_Z]= 0.02;
 
-  cylinder_1.object.primitives.push_back(primitive);
-  cylinder_1.object.primitive_poses.push_back(pose);
-  cylinder_1.object.operation = cylinder_1.object.ADD;
+  sheet.object.primitives.push_back(primitive);
+  sheet.object.primitive_poses.push_back(pose);
+  sheet.object.operation = sheet.object.ADD;
 
   // Add an object into the environment
 
-  ROS_INFO("Adding first pipe into the world.");
+  ROS_INFO("Adding sheet into the world.");
   moveit_msgs::PlanningScene planning_scene;
-  planning_scene.world.collision_objects.push_back(cylinder_1.object);
-
-  cylinder_2.link_name = "world";
-  cylinder_2.object.header.frame_id = "world";
-  cylinder_2.object.id = "r_cylinder";
-  pose.position.y = -0.1;
-
-  cylinder_2.object.primitives.push_back(primitive);
-  cylinder_2.object.primitive_poses.push_back(pose);
-  cylinder_2.object.operation = cylinder_2.object.ADD;
-  ROS_INFO("Adding second pipe into the world.");
-  planning_scene.world.collision_objects.push_back(cylinder_2.object);
+  planning_scene.world.collision_objects.push_back(sheet.object);
   planning_scene.is_diff = true;
   planning_scene_diff_publisher.publish(planning_scene);
 
