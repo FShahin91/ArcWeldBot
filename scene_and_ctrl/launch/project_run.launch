@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <include file="$(find ur_moveit_config)/launch/demo.launch"/>
+    <node name="scene_node" pkg="scene_and_ctrl" type="scene_node"/>
+</launch>
