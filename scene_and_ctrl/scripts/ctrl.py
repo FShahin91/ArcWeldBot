@@ -47,6 +47,7 @@ from six.moves import input
 
 import sys
 import copy
+import time
 import rospy
 import moveit_commander
 import moveit_msgs.msg
@@ -134,37 +135,6 @@ class MoveGroupPython(object):
         current_joints = self.move_group.get_current_joint_values()
         return all_close(joint_goal, current_joints, 0.01)
 
-    def go_to_pose_goal(self, pose_goal):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        move_group = self.move_group
-
-        ## BEGIN_SUB_TUTORIAL plan_to_pose
-        ##
-        ## Planning to a Pose Goal
-        ## ^^^^^^^^^^^^^^^^^^^^^^^
-        ## We can plan a motion for this group to a desired pose for the
-        ## end-effector:
-
-        move_group.set_pose_target(pose_goal)
-
-        ## Now, we call the planner to compute the plan and execute it.
-        plan = move_group.go(wait=True)
-        # Calling `stop()` ensures that there is no residual movement
-        move_group.stop()
-        # It is always good to clear your targets after planning with poses.
-        # Note: there is no equivalent function for clear_joint_value_targets()
-        move_group.clear_pose_targets()
-
-        ## END_SUB_TUTORIAL
-
-        # For testing:
-        # Note that since this section of code will not be included in the tutorials
-        # we use the class variable rather than the copied state variable
-        current_pose = self.move_group.get_current_pose().pose
-        return all_close(pose_goal, current_pose, 0.01)
-
 def main():
     try:
         print("Initializing control...")
@@ -204,7 +174,10 @@ def main():
         (plan, fraction) = ctrlgroup.move_group.compute_cartesian_path(
             waypoints, 0.01, 0.0)
         ctrlgroup.move_group.execute(plan, wait=True)
+        ctrlgroup.move_group.stop()
+        time.sleep(16)
         print("Welding done.")
+        
         print("Welding second circle...")
         waypoints.clear()
         for angle in range (0, 360):           
@@ -217,7 +190,10 @@ def main():
         (plan, fraction) = ctrlgroup.move_group.compute_cartesian_path(
             waypoints, 0.01, 0.0)
         ctrlgroup.move_group.execute(plan, wait=True)
+        ctrlgroup.move_group.stop()
+        time.sleep(16)
         print("Welding done.")
+
         ########################################################
         print("Moving arm to new position...")
         joint_target = ctrlgroup.move_group.get_current_joint_values()
@@ -249,6 +225,7 @@ def main():
         (plan, fraction) = ctrlgroup.move_group.compute_cartesian_path(
             waypoints, 0.01, 0.0)
         ctrlgroup.move_group.execute(plan, wait=True)
+        ctrlgroup.move_group.stop()
         print("Welding done.")
         print("End of planning.")
         
